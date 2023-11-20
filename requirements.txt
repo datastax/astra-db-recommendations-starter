@@ -1,0 +1,5 @@
+langchain
+fastapi
+uvicorn[standard]
+openai
+tiktoken

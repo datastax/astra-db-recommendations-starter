@@ -1,0 +1,33 @@
+export interface ProductItem {
+  _id: string;
+  uniq_id: string;
+  product_name: string;
+  brand_name: string;
+  asin: string;
+  category: string;
+  upc_ean_code: string;
+  list_price: string;
+  selling_price: string;
+  quantity: string;
+  model_number: string;
+  about_product: string;
+  product_specification: string;
+  technical_details: string;
+  shipping_weight: string;
+  product_dimensions: string;
+  image: string;
+  variants: string;
+  sku: string;
+  product_url: string;
+  stock: string;
+  product_details: string;
+  dimensions: string;
+  color: string;
+  ingredients: string;
+  direction_to_use: string;
+  is_amazon_seller: string;
+  size_quantity_variant: string;
+  product_description: string;
+  rating: string;
+  $vector?: number[];
+}

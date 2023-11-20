@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --text-primary: #FFFFFF;
+  --text-primary-inverse: #090909;
+  --text-secondary: #A6AAAE;
+  --text-secondary-inverse: #494A4D;
+  --category-magenta: #D02670;
+  --category-purple: #7724AA;
+  --category-teal: #007D79;
+  --category-cyan: #0072C3;
+  --border-primary: #CED0D2;
+
+  --input-height: 40px;
+}
+
+.dark:root {
+  --text-primary: #090909;
+  --text-primary-inverse: #FFFFFF;
+  --text-secondary: #494A4D;
+  --text-secondary-inverse: #A6AAAE;
+  --category-magenta: #FF7EB6;
+  --category-purple: #9946B9;
+  --category-teal: #08BDBA;
+  --category-cyan: #33B1FF;
+  --border-primary: #5A5D60;
+}
+
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: var(--text-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary-inverse);
+}
+
+.chatbot-container {
+  @apply max-w-[1440px];
+  @apply mx-auto;
+}
+
+.chatbot-shop-logo svg {
+  fill: var(--text-primary-inverse);
+}
+
+.chatbot-input {
+  @apply items-center;
+  @apply rounded-[6px];
+  @apply p-2;
+  @apply gap-2;
+  height: var(--input-height);
+  border: 1px solid var(--border-primary);
+}
+
+.chatbot-input input {
+  @apply flex-1;
+  color: var(--text-primary-inverse);
+  @apply outline-none;
+  @apply border-none;
+  @apply bg-transparent;
+}
+
+.chatbot-input input::placeholder {
+  color: var(--text-secondary);
+}
+
+.chatbot-input svg {
+  fill: var(--text-primary-inverse);
+}
+
+.chatbot-button {
+  background-color: var(--text-primary-inverse);
+  color: var(--text-primary);
+  height: var(--input-height);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.chatbot-button svg {
+  fill: var(--text-primary) !important;
+}
+
+.chatbot-icon {
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply w-[32px];
+  @apply h-[32px];
+  @apply cursor-pointer;
+  @apply rounded-full;
+}
+
+.chatbot-icon:hover {
+  @apply bg-[var(--text-secondary)];
+}
+
+.chatbot-icon svg {
+  @apply fill-[var(--text-primary-inverse)];
+}
+
+.chatbot-landing-header {
+  @apply max-w-[400px];
+}
+
+.chatbot-landing-header h1 {
+  @apply text-[34px];
+  @apply leading-[51px];
+  @apply font-semibold;
+}
+
+.chatbot-landing-header p {
+  color: var(--text-primary-inverse);
+}
+
+.chatbot-divider {
+  @apply border-[--border-primary];
+}
+
+.chatbot-category-card {
+  height: 240px;
+  @apply rounded-xl;
+}
+
+.chatbot-category-card span {
+  color: var(--text-primary);
+}
+
+.chatbot-category-card p {
+  color: var(--text-primary);
+  opacity: 0.75;
+}
+
+.chatbot-category-card svg {
+  fill: var(--text-primary);
+}
+
+.chatbot-category-card-image {
+  position: relative;
+  background-size: cover;
+}
+
+.chatbot-product-card {
+  @apply flex;
+  @apply flex-col;
+  @apply overflow-hidden;
+  @apply rounded-md;
+  border: 1px solid var(--border-primary);
+}
+
+.chatbot-product-card-info {
+  @apply rounded-b-md;
+  @apply px-4;
+  @apply py-5;
+}
+
+.chatbot-footer-item-title {
+  @apply font-semibold;
+  color: var(--text-primary-inverse);
+}
+
+.chatbot-footer-item {
+  @apply mt-4;
+}
+
+.chatbot-footer-item a {
+  color: var(--category-magenta);
+  text-decoration: underline;
+}
+
+.chatbot-buy-amount svg {
+  fill: var(--category-magenta);
+}
+
+.chatbot-product-title {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.chatbot-product-description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.spinner {
+  height: 40px;
+}
+
+.spinner>div {
+  background-color: var(--text-secondary);
+  height: 100%;
+  width: 4px;
+  display: inline-block;
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner>div:not(:first-child) {
+  margin-left: 4px;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4)
+  }
+
+  20% {
+    -webkit-transform: scaleY(1.0)
+  }
+}
+
+@keyframes stretchdelay {
+
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }
+
+  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
