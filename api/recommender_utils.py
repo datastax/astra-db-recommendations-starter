@@ -2,8 +2,10 @@ import json
 from langchain.llms import OpenAI
 from langchain.embeddings import OpenAIEmbeddings
 
-from api.local_creds import *
-from api.query import *
+import sys
+sys.path.append("api")
+from local_creds import *
+from query import *
 
 #langchain openai interface
 llm = OpenAI(openai_api_key=OPENAI_API_KEY)

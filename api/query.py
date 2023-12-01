@@ -1,6 +1,9 @@
 import requests
 import json
-from api.local_creds import *
+
+import sys
+sys.path.append("api")
+from local_creds import *
 
 request_url = f"https://{ASTRA_DB_ID}-{ASTRA_DB_REGION}.apps.astra.datastax.com/api/json/v1/{ASTRA_DB_NAMESPACE}/recommendations"
 request_headers = { 'x-cassandra-token': ASTRA_DB_APPLICATION_TOKEN,  'Content-Type': 'application/json'}
