@@ -12,12 +12,11 @@ When you deploy with vercel, create envrionment variables via the Vercel UI. Whe
 export NAME=VALUE
 ```
 
-- KEYSPACE=existing Astra keyspace in a vector enables DB
-- COLLECTION_NAME=name of a JSON API Astra collection
 - OPENAI_API_KEY=api key for OPENAI
 - ASTRA_DB_ID=Astra database id
 - ASTRA_DB_REGION=Astra database region
 - ASTRA_DB_APPLICATION_TOKEN=Generate app token for Astra database
+- ASTRA_DB_NAMESPACE=Existing Astra keyspace in a vector enables DB
 
 # Local Setup
 
@@ -32,6 +31,16 @@ To install frontend deps run the following command
 
 ```
 npm install
+
+```
+
+# Load Data
+
+Load the DB into a collection named `recommendations`
+
+```
+python3 populate_db/load_data.py populate_db/product_data.csv
+
 ```
 
 # Start Servers
@@ -39,7 +48,7 @@ npm install
 To start the backend server, in a terminal tab run the following
 
 ```
-uvicorn api:index:app --reload
+uvicorn api.index:app --reload
 ```
 
 To start the frontend in a new terminal run the following

@@ -13,7 +13,7 @@ import Color from '@/utils/color';
 const sora = Sora({ subsets: ['latin'] })
 
 export default function ProductCard({ data }: { data: ProductItem }) {
-  const productId = data.uniq_id;
+  const productId = data?.uniq_id;
 
   return (
     <Link href={`/product/${productId}`}>
