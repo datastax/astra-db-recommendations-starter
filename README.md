@@ -2,11 +2,11 @@
 
 You can clone & deploy it to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Anant/astra-llm-recommendation-demo)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/datastax/astra-db-recommendations-starter)
 
 # Environment Variables
 
-When you deploy with vercel, create envrionment variables via the Vercel UI. When deploying locally, create them using the terminal command 
+When you deploy with Vercel, create environment variables via the Vercel UI. When deploying locally, create them using the terminal command 
 
 ```
 export NAME=VALUE
