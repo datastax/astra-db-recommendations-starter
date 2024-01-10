@@ -18,13 +18,15 @@ export default async function Page({
   const { productId } = params;
 
   const productResponse = await axios
-    .get<ProductItem>(`/api/product/${productId}`)
+    .get<ProductItem>(`${process.env.API_BASE_URL}/api/product/${productId}`)
     .catch((err) => {
       console.log('err', err);
     });
 
   const recommendProductsResponse = await axios
-    .get<ProductItem[]>(`/api/product/${productId}/recommended`)
+    .get<ProductItem[]>(
+      `${process.env.API_BASE_URL}/api/product/${productId}/recommended`
+    )
     .catch((err) => {
       console.log('err', err);
     });
