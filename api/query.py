@@ -23,8 +23,10 @@ def get_product_vector(product_id):
 
 
 def get_products(pagingState):
-    generator = collection.paginated_find(prefetched=20)
-    return [i for i in generator]
+    response = collection.find()
+    return response["data"]
+    # generator = collection.paginated_find(prefetched=20)
+    # return [i for i in generator]
 
 
 def get_similar_products(vector, count):
