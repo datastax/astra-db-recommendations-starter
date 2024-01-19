@@ -21,12 +21,18 @@ def get_product(product_id):
 def get_product_vector(product_id):
     return get_product(product_id)["$vector"]
 
-
 def get_products(pagingState):
-    response = collection.find()
-    return response["data"]
-    # generator = collection.paginated_find(prefetched=20)
-    # return [i for i in generator]
+    if pagingState is None:
+        global res
+        res = collection.paginated_find()
+    documents = []
+    for _ in range(20):
+        document = next(res, None)
+        if document is not None:
+            documents.append(document)
+        else:
+            break
+    return documents
 
 
 def get_similar_products(vector, count):
