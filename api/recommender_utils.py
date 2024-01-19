@@ -8,7 +8,7 @@ from local_creds import *
 from query import *
 
 #langchain openai interface
-llm = OpenAI(openai_api_key=OPENAI_API_KEY)
+llm = OpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-3.5-turbo-instruct")
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
 def get_possible_recommended_products(product_id, count):

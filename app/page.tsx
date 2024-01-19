@@ -23,9 +23,9 @@ export default function Home() {
       if (nextPageState) {
         baseUrl += `?pagingState=${nextPageState}`;
       }
-      const response = await axios.get<{ documents: ProductItem[]; nextPageState: string }>(baseUrl);
-      setProducts([...products, ...response.data.documents]);
-      setNextPageState(response.data.nextPageState);
+      const response = await axios.get<ProductItem[]>(baseUrl);
+      setProducts([...products, ...response.data]);
+      // setNextPageState(response.data.nextPageState);
     } catch (err) {
 
     }
