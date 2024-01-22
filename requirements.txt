@@ -3,4 +3,4 @@ fastapi
 uvicorn[standard]
 openai
 tiktoken
-astrapy
+astrapy==0.7.0

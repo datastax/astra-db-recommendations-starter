@@ -2,6 +2,7 @@ from astrapy.db import AstraDB, AstraDBCollection
 
 import sys
 
+
 sys.path.append("api")
 from local_creds import *
 
@@ -20,6 +21,7 @@ def get_product(product_id):
 
 def get_product_vector(product_id):
     return get_product(product_id)["$vector"]
+
 
 def get_products(pagingState):
     if pagingState is None:
