@@ -1,6 +1,6 @@
 import json
-from langchain.llms import OpenAI
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAI
+from langchain_openai import OpenAIEmbeddings
 
 import sys
 sys.path.append("api")
