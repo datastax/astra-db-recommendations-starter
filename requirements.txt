@@ -1,5 +1,6 @@
-langchain
-fastapi
+astrapy==0.7.0
+fastapi==0.109.0
 uvicorn[standard]
-openai
-tiktoken
+openai==1.8.0
+tiktoken==0.5.2
+langchain-openai==0.0.3
