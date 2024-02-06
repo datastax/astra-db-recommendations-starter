@@ -7,7 +7,7 @@ sys.path.append("api")
 from local_creds import *
 from query import *
 
-#langchain openai interface
+# langchain openai interface
 llm = OpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-3.5-turbo-instruct")
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
@@ -23,7 +23,7 @@ def build_full_prompt(product_id, count):
     stripped_product_list = [strip_blank_fields(strip_for_query(row)) for row in long_product_list]
     string_product_list = ["PRODUCT NUMBER "+str(ind) + ": " + json.dumps(product) for ind, product in enumerate(stripped_product_list)]
 
-    #prompt that is sent to openai using the response from the vector database
+    # prompt that is sent to openai using the response from the vector database
     prompt_boilerplate = "Of the following products, all preceded with PRODUCT NUMBER, select the " + str(count) + " products most recommended to shoppers who bought the product preceded by ORIGINAL PRODUCT below. Return the product_id corresponding to those products."
     original_product_section = "ORIGINAL PRODUCT: " + json.dumps(strip_blank_fields(strip_for_query(get_product(product_id))))
     comparable_products_section = "\n".join(string_product_list)
