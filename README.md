@@ -14,7 +14,7 @@ When you deploy with Vercel, create environment variables via the Vercel UI. Whe
 export NAME=VALUE
 ```
 
-- OPENAI_API_KEY=api key for OPENAI
+- OPENAI_API_KEY=API key for OPENAI
 - ASTRA_DB_ID=Astra DB database id
 - ASTRA_DB_REGION=Astra DB database region
 - ASTRA_DB_APPLICATION_TOKEN=Generate app token for Astra database
