@@ -53,9 +53,8 @@ def main(collection):
 
 if __name__ == "__main__":
     collection = AstraDBCollection(
-        collection_name=ASTRA_DB_COLLECTION,
+        collection_name="recommendations",
         token=ASTRA_DB_APPLICATION_TOKEN,
         api_endpoint=ASTRA_DB_API_ENDPOINT,
-        namespace=ASTRA_DB_NAMESPACE,
     )
     main(collection=collection)

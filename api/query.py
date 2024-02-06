@@ -9,9 +9,8 @@ from local_creds import *
 astra_db = AstraDB(
     token=ASTRA_DB_APPLICATION_TOKEN,
     api_endpoint=ASTRA_DB_API_ENDPOINT,
-    namespace=ASTRA_DB_NAMESPACE,
 )
-collection = AstraDBCollection(collection_name=ASTRA_DB_COLLECTION, astra_db=astra_db)
+collection = AstraDBCollection(collection_name="recommendations", astra_db=astra_db)
 
 
 def get_product(product_id):
