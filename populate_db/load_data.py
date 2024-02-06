@@ -66,7 +66,7 @@ if __name__ == "__main__":
         token=ASTRA_DB_APPLICATION_TOKEN,
         namespace=ASTRA_DB_NAMESPACE,
         collection_name=ASTRA_DB_COLLECTION,
-        vector_dimesion=VECTOR_DIMENSION,
+        vector_dimension=VECTOR_DIMENSION,
     )
     filepath = sys.argv[1]
     main(collection=collection, filepath=filepath)
