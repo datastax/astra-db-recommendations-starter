@@ -2,13 +2,14 @@ import json
 import csv
 from langchain.embeddings import OpenAIEmbeddings
 import sys
+import os
 
 sys.path.append("api")
 from local_creds import *
 from astrapy.db import AstraDB
 import time
 
-embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+embeddings = OpenAIEmbeddings(openai_api_key=os.environ["OPENAI_API_KEY"])
 
 
 def create_collection(api_endpoint, token, collection_name, vector_dimension):
@@ -60,10 +61,10 @@ def main(collection, filepath):
 
 if __name__ == "__main__":
     collection = create_collection(
-        api_endpoint=ASTRA_DB_API_ENDPOINT,
-        token=ASTRA_DB_APPLICATION_TOKEN,
+        api_endpoint=os.environ["ASTRA_DB_API_ENDPOINT"],
+        token=os.environ["ASTRA_DB_APPLICATION_TOKEN"],
         collection_name="recommendations",
-        vector_dimension=VECTOR_DIMENSION,
+        vector_dimension=os.environ["VECTOR_DIMENSION"],
     )
     filepath = sys.argv[1]
     main(collection=collection, filepath=filepath)
