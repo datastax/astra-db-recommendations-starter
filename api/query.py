@@ -1,4 +1,5 @@
-from astrapy.db import AstraDB, AstraDBCollection
+from astrapy import DataAPIClient
+from astrapy.constants import Environment
 
 import sys
 
@@ -6,16 +7,23 @@ import sys
 sys.path.append("api")
 from local_creds import *
 
-astra_db = AstraDB(
-    token=ASTRA_DB_APPLICATION_TOKEN,
-    api_endpoint=ASTRA_DB_API_ENDPOINT,
-)
-collection = AstraDBCollection(collection_name="recommendations", astra_db=astra_db)
+# defaults to Environment.PROD for Astra DB
+db_env = Environment.PROD
+
+if os.getenv("DB_ENV") != None:
+    if os.environ["DB_ENV"] == "DSE":
+        db_env = Environment.DSE;
+    if os.environ["DB_ENV"] == "HCD":
+        db_env = Environment.HCD;
+
+client = DataAPIClient(token=ASTRA_DB_APPLICATION_TOKEN, environment=db_env)
+astra_db = client.get_database(ASTRA_DB_API_ENDPOINT)
+collection = astra_db.get_collection("recommendations")
 
 
 def get_product(product_id):
     response = collection.find_one(filter={"uniq_id": product_id})
-    return response["data"]["document"]
+    return response
 
 
 def get_product_vector(product_id):
@@ -25,19 +33,17 @@ def get_product_vector(product_id):
 def get_products(pagingState):
     if pagingState is None:
         global res
-        res = collection.paginated_find()
+        res = collection.find(limit=20)
     documents = []
-    for _ in range(20):
-        document = next(res, None)
-        if document is not None:
-            documents.append(document)
-        else:
-            break
+
+    for doc in res:
+        documents.append(doc)
+
     return documents
 
 
 def get_similar_products(vector, count):
-    product_list = collection.vector_find(vector=vector, limit=count)
+    product_list = collection.find(vector=vector, limit=count)
     provided_vector_removed_product_list = [
         row for row in product_list if row["$vector"] != vector
     ]

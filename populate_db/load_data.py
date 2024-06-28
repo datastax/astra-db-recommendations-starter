@@ -1,23 +1,42 @@
 import json
 import csv
-from langchain.embeddings import OpenAIEmbeddings
+#from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 import sys
 import os
 
 sys.path.append("api")
 from local_creds import *
-from astrapy.db import AstraDB
+from astrapy import DataAPIClient
+from astrapy.constants import Environment
+from astrapy.constants import VectorMetric
 import time
 
 embeddings = OpenAIEmbeddings(openai_api_key=os.environ["OPENAI_API_KEY"])
 
-
 def create_collection(api_endpoint, token, collection_name, vector_dimension):
-    astra_db = AstraDB(token=token, api_endpoint=api_endpoint, namespace="default_keyspace")
+    #astra_db = AstraDB(token=token, api_endpoint=api_endpoint, namespace="default_keyspace")
+    #collection = astra_db.create_collection(
+    #    collection_name=collection_name,
+    #    dimension=vector_dimension
+    #)
+
+    # defaults to Environment.PROD for Astra DB
+    db_env = Environment.PROD
+
+    if os.getenv("DB_ENV") != None:
+        if os.environ["DB_ENV"] == "DSE":
+            db_env = Environment.DSE;
+        if os.environ["DB_ENV"] == "HCD":
+            db_env = Environment.HCD;
+
+    client = DataAPIClient(token=token, environment=db_env)
+    astra_db = client.get_database(api_endpoint)
     collection = astra_db.create_collection(
-        collection_name=collection_name,
-        dimension=vector_dimension
-    )
+        collection_name, 
+        dimension=vector_dimension, 
+        metric=VectorMetric.COSINE)
+
     return collection
 
 
@@ -64,7 +83,7 @@ if __name__ == "__main__":
         api_endpoint=os.environ["ASTRA_DB_API_ENDPOINT"],
         token=os.environ["ASTRA_DB_APPLICATION_TOKEN"],
         collection_name="recommendations",
-        vector_dimension=os.environ["VECTOR_DIMENSION"],
+        vector_dimension=1536,
     )
     filepath = sys.argv[1]
     main(collection=collection, filepath=filepath)

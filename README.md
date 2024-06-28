@@ -7,6 +7,18 @@ export OPENAI_API_KEY=REPLACE_ME
 export ASTRA_DB_API_ENDPOINT=REPLACE_ME
 export ASTRA_DB_APPLICATION_TOKEN=REPLACE_ME
 ```
+
+### Optional - DSE or HCD
+If you are using DataStax Enterprise (DSE) 6.9.x or Hyper-Converged Database (HCD) 1.0.x, set the following additional environment variable.
+```
+export DB_ENV=DSE
+```
+Or
+```
+export DB_ENV=HCD
+```
+
+
 ## Local Setup
 
 To install backend dependencies, run the following command:
