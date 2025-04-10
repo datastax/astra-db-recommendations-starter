@@ -2,8 +2,7 @@ import sys
 
 from astrapy import DataAPIClient
 
-sys.path.append("api")
-from local_creds import (
+from .local_creds import (
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
     ASTRA_DB_COLLECTION,

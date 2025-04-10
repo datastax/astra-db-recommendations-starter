@@ -2,8 +2,6 @@ import json
 
 from langchain_openai import OpenAI, OpenAIEmbeddings
 
-# import sys
-# sys.path.append("api")
 from .local_creds import OPENAI_API_KEY
 from .query import (
     get_product,
