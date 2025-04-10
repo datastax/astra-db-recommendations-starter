@@ -1,22 +1,36 @@
-import json
 import csv
-from langchain.embeddings import OpenAIEmbeddings
-import sys
+import json
 import os
+import sys
 
-sys.path.append("api")
-from local_creds import *
-from astrapy.db import AstraDB
-import time
+from langchain_openai import OpenAIEmbeddings
+
+from astrapy import DataAPIClient
+from astrapy.info import CollectionDefinition
 
 embeddings = OpenAIEmbeddings(openai_api_key=os.environ["OPENAI_API_KEY"])
 
+EMBEDDING_CHUNK_SIZE = 80
 
-def create_collection(api_endpoint, token, collection_name, vector_dimension):
-    astra_db = AstraDB(token=token, api_endpoint=api_endpoint, namespace="default_keyspace")
-    collection = astra_db.create_collection(
-        collection_name=collection_name,
-        dimension=vector_dimension
+
+def get_database():
+    astra_db_client = DataAPIClient()
+    database = astra_db_client.get_database(
+        os.environ["ASTRA_DB_API_ENDPOINT"],
+        token=os.environ["ASTRA_DB_APPLICATION_TOKEN"],
+        keyspace=os.environ.get("ASTRA_DB_KEYSPACE"),
+    )
+    return database
+
+
+def create_collection(database, collection_name, vector_dimension):
+    collection = database.create_collection(
+        collection_name,
+        definition=(
+            CollectionDefinition.builder()
+            .set_vector_dimension(vector_dimension)
+            .build()
+        ),
     )
     return collection
 
@@ -32,39 +46,61 @@ def load_csv_file(filename):
 
 
 def embed(text_to_embed):
-    embedding = embeddings.embed_query(text_to_embed)
-    return [float(component) for component in embedding]
+    embedding_vector = embeddings.embed_query(text_to_embed)
+    return [float(component) for component in embedding_vector]
+
+
+def embed_list(texts_to_embed):
+    embedding_vectors = embeddings.embed_documents(texts_to_embed)
+    return [
+        [float(component) for component in embedding_vector]
+        for embedding_vector in embedding_vectors
+    ]
 
 
 def main(collection, filepath):
     count = 0
-    data_file = load_csv_file(filepath)
-    for row in data_file:
-        to_embed = {
-            key.lower().replace(" ", "_"): row[key]
-            for key in (
-                "Product Name",
-                "Brand Name",
-                "Category",
-                "Selling Price",
-                "About Product",
-                "Product Url",
+    input_rows = load_csv_file(filepath)
+    for chunk_start in range(0, len(input_rows), EMBEDDING_CHUNK_SIZE):
+        chunk = input_rows[chunk_start : chunk_start + EMBEDDING_CHUNK_SIZE]
+        to_embed_strings = [
+            json.dumps(
+                {
+                    key.lower().replace(" ", "_"): row[key]
+                    for key in (
+                        "Product Name",
+                        "Brand Name",
+                        "Category",
+                        "Selling Price",
+                        "About Product",
+                        "Product Url",
+                    )
+                }
             )
-        }
-        to_embed_string = json.dumps(to_embed)
-        embedded_product = embed(json.dumps(to_embed_string))
-        to_insert = {key.lower().replace(" ", "_"): row[key] for key in row.keys()}
-        to_insert["$vector"] = embedded_product
-        response = collection.insert_one(to_insert)
-        count += 1
+            for row in chunk
+        ]
+        embedding_vectors = embed_list(to_embed_strings)
+        documents_to_insert = []
+        for row, embedding_vector in zip(chunk, embedding_vectors):
+            document_to_insert = {
+                "$vector": embedding_vector,
+                **{key.lower().replace(" ", "_"): value for key, value in row.items()},
+            }
+            documents_to_insert.append(document_to_insert)
+        insertion_result = collection.insert_many(documents_to_insert)
+        count += len(insertion_result.inserted_ids)
+    return count
 
 
 if __name__ == "__main__":
+    filepath = sys.argv[1]
+
+    database = get_database()
     collection = create_collection(
-        api_endpoint=os.environ["ASTRA_DB_API_ENDPOINT"],
-        token=os.environ["ASTRA_DB_APPLICATION_TOKEN"],
+        database,
         collection_name="recommendations",
         vector_dimension=os.environ["VECTOR_DIMENSION"],
     )
-    filepath = sys.argv[1]
-    main(collection=collection, filepath=filepath)
+
+    total_inserted = main(collection=collection, filepath=filepath)
+    print(f"Finished: inserted {total_inserted} products.")
