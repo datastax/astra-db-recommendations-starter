@@ -46,16 +46,11 @@ def load_csv_file(filename):
 
 
 def embed(text_to_embed):
-    embedding_vector = embeddings.embed_query(text_to_embed)
-    return [float(component) for component in embedding_vector]
+    return embeddings.embed_query(text_to_embed)
 
 
 def embed_list(texts_to_embed):
-    embedding_vectors = embeddings.embed_documents(texts_to_embed)
-    return [
-        [float(component) for component in embedding_vector]
-        for embedding_vector in embedding_vectors
-    ]
+    return embeddings.embed_documents(texts_to_embed)
 
 
 def main(collection, filepath):

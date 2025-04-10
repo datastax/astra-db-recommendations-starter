@@ -1,7 +1,6 @@
-from astrapy import DataAPIClient
-
 import sys
 
+from astrapy import DataAPIClient
 
 sys.path.append("api")
 from local_creds import (

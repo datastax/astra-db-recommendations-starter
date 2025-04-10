@@ -1,8 +1,14 @@
+from api.query import (
+    get_product,
+    get_products,
+)
+from api.recommender_utils import (
+    get_recommended_products,
+    get_search_results,
+)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from api.recommender_utils import *
-from api.query import *
 
 origins = [
     "http://localhost",

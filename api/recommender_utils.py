@@ -1,6 +1,6 @@
 import json
-from langchain_openai import OpenAI
-from langchain_openai import OpenAIEmbeddings
+
+from langchain_openai import OpenAI, OpenAIEmbeddings
 
 # import sys
 # sys.path.append("api")
@@ -24,23 +24,31 @@ def get_possible_recommended_products(product_id, count):
 
 def build_full_prompt(product_id, count):
     long_product_list = get_possible_recommended_products(product_id, 8)
-    strip_blank_fields = lambda a_dict: {
-        key: a_dict[key] for key in a_dict if a_dict[key] != ""
-    }
-    strip_for_query = lambda a_dict: {
-        key: a_dict[key]
-        for key in (
-            "product_name",
-            "brand_name",
-            "category",
-            "selling_price",
-            "about_product",
-            "selling_price",
-            "product_specification",
-            "technical_details",
-            "shipping_weight",
-        )
-    }
+
+    def strip_blank_fields(a_dict):
+        return {
+            key: value
+            for key, value in a_dict.items()
+            if value != ""
+        }
+
+    def strip_for_query(a_dict):
+        return {
+            key: value
+            for key, value in a_dict.items()
+            if key in {
+                "product_name",
+                "brand_name",
+                "category",
+                "selling_price",
+                "about_product",
+                "selling_price",
+                "product_specification",
+                "technical_details",
+                "shipping_weight",
+            }
+        }
+
     stripped_product_list = [
         strip_blank_fields(strip_for_query(row)) for row in long_product_list
     ]
@@ -84,8 +92,7 @@ def get_recommended_products(product_id, count):
 
 
 def embed(text_to_embed):
-    embedding = list(embeddings.embed_query(text_to_embed))
-    return [float(component) for component in embedding]
+    return embeddings.embed_query(text_to_embed)
 
 
 def get_search_results(query, count):
