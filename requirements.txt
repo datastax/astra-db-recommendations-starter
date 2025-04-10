@@ -1,5 +1,7 @@
-astrapy==0.7.3
-fastapi==0.109.2
-uvicorn[standard]
-tiktoken==0.5.2
-ragstack-ai
+astrapy>=2.0.0,<3.0.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+tiktoken>=0.9.0
+langchain>=0.3
+langchain_community>=0.3
+langchain_openai>=0.3

@@ -1,8 +1,14 @@
+from api.query import (
+    get_product,
+    get_products,
+)
+from api.recommender_utils import (
+    get_recommended_products,
+    get_search_results,
+)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from api.recommender_utils import *
-from api.query import *
 
 origins = [
     "http://localhost",
@@ -23,20 +29,25 @@ class Query(BaseModel):
     product_id: str
     count: int
 
+
 class Search(BaseModel):
     query: str
 
+
 @app.get("/api/product")
-async def products(pagingState = None):
+async def products(pagingState=None):
     return get_products(pagingState)
+
 
 @app.get("/api/product/{product_id}")
 async def product(product_id):
     return get_product(product_id)
 
+
 @app.get("/api/product/{product_id}/recommended")
-async def recommend_products(product_id, count = 4):
-    return get_recommended_products(product_id,count)
+async def recommend_products(product_id, count=4):
+    return get_recommended_products(product_id, count)
+
 
 @app.post("/api/search")
 async def search(search: Search):
